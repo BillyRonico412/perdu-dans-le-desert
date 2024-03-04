@@ -12,10 +12,11 @@ import { SortableContext, arrayMove, sortableKeyboardCoordinates, verticalListSo
 import { useState } from 'react'
 import { Item } from './Item'
 import { items, type ItemInterface } from './utils'
+import { Toaster } from '@/components/ui/sonner'
+import { toast } from 'sonner'
 
 export const App = () => {
 	const [itemsSorted, setItemsSorted] = useState<ItemInterface[]>(items)
-	const [res, setRes] = useState<number | undefined>(undefined)
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
@@ -35,30 +36,28 @@ export const App = () => {
 	const onClickCalculer = () => {
 		let result = 0
 		for (let i = 0; i < itemsSorted.length; i++) {
-			result += Math.abs(itemsSorted[i].point - i + 1)
+			result += Math.abs(itemsSorted[i].point - i - 1)
 		}
-		setRes(result)
+		toast.success(`Le score est de ${result}`)
 	}
 	return (
-		<div className="max-w-[600px] container mx-auto flex flex-col py-8 gap-y-8">
-			<h1 className="text-center font-bold text-2xl">Perdu dans le desert</h1>
-			<div className="flex flex-col gap-y-2">
-				<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-					<SortableContext items={itemsSorted} strategy={verticalListSortingStrategy}>
-						{itemsSorted.map((item, index) => (
-							<Item key={item.id} item={item} index={index} />
-						))}
-					</SortableContext>
-				</DndContext>
-			</div>
-			<Button className="font-bold" onClick={onClickCalculer}>
-				Calculer
-			</Button>
-			{res && (
-				<div>
-					<h2 className="text-center font-bold text-2xl">Resultat: {res}</h2>
+		<>
+			<div className="max-w-[600px] container mx-auto flex flex-col py-8 gap-y-8">
+				<h1 className="text-center font-bold text-2xl">Perdu dans le desert</h1>
+				<div className="flex flex-col gap-y-2">
+					<DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+						<SortableContext items={itemsSorted} strategy={verticalListSortingStrategy}>
+							{itemsSorted.map((item, index) => (
+								<Item key={item.id} item={item} index={index} />
+							))}
+						</SortableContext>
+					</DndContext>
 				</div>
-			)}
-		</div>
+				<Button className="font-bold" onClick={onClickCalculer}>
+					Calculer
+				</Button>
+			</div>
+			<Toaster closeButton={true} />
+		</>
 	)
 }
