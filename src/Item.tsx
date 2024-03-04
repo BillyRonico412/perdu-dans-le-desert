@@ -1,6 +1,8 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import type { ItemInterface } from './utils'
+import { Grip } from 'lucide-react'
+import { Badge } from '@/components/ui/badge'
 
 interface ItemProps {
 	item: ItemInterface
@@ -15,14 +17,10 @@ export const Item = (props: ItemProps) => {
 		transition,
 	}
 	return (
-		<div
-			ref={setNodeRef}
-			style={style}
-			{...attributes}
-			{...listeners}
-			className="border px-4 py-2 font-medium flex items-center justify-center touch-none"
-		>
-			<span className="text-center">{props.item.name}</span>
+		<div ref={setNodeRef} style={style} className="border px-4 py-2 font-medium flex gap-x-4 items-center">
+			<Grip {...listeners} {...attributes} size={16} className="flex-shrink-0 touch-none" />
+			<Badge>{props.index + 1}</Badge>
+			<span>{props.item.name}</span>
 		</div>
 	)
 }
