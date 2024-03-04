@@ -17,7 +17,7 @@ export const Item = (props: ItemProps) => {
 		transition,
 	}
 	return (
-		<div ref={setNodeRef} style={style} className="border px-4 py-2 font-medium flex gap-x-4 items-center">
+		<div ref={setNodeRef} style={style} className="border px-4 py-2 font-medium flex gap-x-4 items-center rounded-lg">
 			<Grip {...listeners} {...attributes} size={16} className="flex-shrink-0 touch-none" />
 			<Badge>{props.index + 1}</Badge>
 			<span>{props.item.name}</span>
