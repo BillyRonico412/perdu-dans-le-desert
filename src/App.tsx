@@ -16,9 +16,10 @@ import { Item } from './Item'
 import { items, type ItemInterface } from './utils'
 import { ThemeProvider } from '@/components/theme-provider'
 import { ModeToggle } from '@/components/mode-toggle'
+import arrayShuffle from 'array-shuffle'
 
 export const App = () => {
-	const [itemsSorted, setItemsSorted] = useState<ItemInterface[]>(items)
+	const [itemsSorted, setItemsSorted] = useState<ItemInterface[]>(arrayShuffle(items))
 	const sensors = useSensors(
 		useSensor(PointerSensor),
 		useSensor(KeyboardSensor, {
